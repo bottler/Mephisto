@@ -31,9 +31,15 @@ def web():
 @click.option("--stdout", "output_method", flag_value="stdout")
 @click.option("--file", "output_method", flag_value="file", default=True)
 @click.option("--csv-headers/--no-csv-headers", default=False)
-@click.option("--json/--csv", default=False)
+# @click.option("--json/--csv", default=False)
+@click.option("--json", "input_method", flag_value="json")
+@click.option("--db", "input_method", flag_value="database")
+@click.option("--csv", "input_method", flag_value="csv", default=True)
 @click.option("-d", "--debug", type=(bool), default=False)
-def review(review_app_dir, port, output, output_method, csv_headers, json, debug):
+# def review(review_app_dir, port, output, output_method, csv_headers, json, database, debug):
+def review(
+    review_app_dir, port, output, output_method, csv_headers, input_method, debug
+):
     """Launch a local review UI server. Reads in rows froms stdin and outputs to either a file or stdout."""
     from mephisto.client.review.review_server import run
 
@@ -42,7 +48,7 @@ def review(review_app_dir, port, output, output_method, csv_headers, json, debug
             "You must specify an output file via --output=<filename>, unless the --stdout flag is set."
         )
 
-    run(review_app_dir, port, output, csv_headers, json, debug)
+    run(review_app_dir, port, output, csv_headers, input_method, debug)
 
 
 @cli.command("check")
